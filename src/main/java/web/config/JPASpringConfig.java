@@ -11,6 +11,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -19,6 +20,7 @@ import java.util.Properties;
 @Configuration
 @ComponentScan("web")
 @EnableTransactionManagement
+@EnableWebMvc
 public class JPASpringConfig {
 
     @Bean
