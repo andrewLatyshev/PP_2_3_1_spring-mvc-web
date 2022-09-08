@@ -4,44 +4,54 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import web.dao.UserDaoIml;
+import org.springframework.web.bind.annotation.PostMapping;
 import web.models.User;
+import web.service.UserService;
 
 import java.util.List;
 
 @Controller
-//@RequestMapping("/")
 public class UsersController {
 
-	private UserDaoIml userDaoIml;
+	private final UserService userService;
 
-	public UsersController(UserDaoIml userDaoIml) {
-		this.userDaoIml = userDaoIml;
+	public UsersController(UserService userService) {
+		this.userService = userService;
 	}
-
-//	@GetMapping("/")
-//	public String homePage(Model model) {
-//		model.addAttribute("welcome","This is Homepage");
-//		return "index";
-//	}
-
 	@GetMapping( value = "/")
 	public String showAllUsers(Model model) {
-		List<User> users = userDaoIml.getAllUsers();
+		List<User> users = userService.getAllUsers();
 		model.addAttribute("users", users);
 		return "index";
 	}
 
-	@GetMapping("/{id}")
-	public String showUser(@PathVariable("id") int id, Model model) {
-		model.addAttribute("showuser", userDaoIml.showUser(id));
-		return "show";
+	@GetMapping("/user-create")
+	public String createUserForm(User user) {
+		return "user-create";
 	}
 
+	@PostMapping("/user-create")
+	public String createUser(User user) {
+		userService.saveUser(user);
+		return "redirect:/";
+	}
 
-//	public String removeById() {
-//		return null;
-//	}
+	@GetMapping("user-delete/{id}")
+	public String removeById(@PathVariable("id") int id) {
+		userService.removeUserById(id);
+		return "redirect:/";
+	}
+
+	@GetMapping("user-update/{id}")
+	public String updateUserForm(@PathVariable("id") int id, Model model) {
+		model.addAttribute("user", userService.showUser(id));
+		return "user-update";
+	}
+
+	@PostMapping("/user-update")
+	public String updateUser(int id, User user) {
+		userService.editUser(id, user);
+		return "redirect:/";
+	}
 
 }

@@ -19,9 +19,9 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan("web")
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass = true)
 @EnableWebMvc
-public class JPASpringConfig {
+public class JPAHibernateSpringConfig {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
